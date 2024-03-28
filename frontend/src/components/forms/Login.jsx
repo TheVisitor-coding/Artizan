@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import Button from './buttons/Button'
-import Input from './input/Input'
-import { useLogin } from '../../hooks/Auth'
+import { Input, Button, Spinner } from '@nextui-org/react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/authContext'
 
 function Login () {
   const [formData, setFormData] = useState({
@@ -11,13 +10,13 @@ function Login () {
   })
 
   const navigate = useNavigate()
-  const { response, error, login } = useLogin()
+  const { state: { user, jwt, error, loading }, login } = useAuth()
 
   useEffect(() => {
-    if (response && response.jwt) {
+    if (user && jwt) {
       navigate('/dashboard')
     }
-  }, [response])
+  }, [user, jwt])
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -30,10 +29,18 @@ function Login () {
 
   return (
     <>
-      <form className='form-container' onSubmit={handleSubmit}>
-        <h2>Se Connecter</h2>
+      {
+      loading && (
+        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center'>
+          <Spinner />
+        </div>
+      )
+    }
+      <form className='flex flex-col justify-center gap-3 w-6/12 xl:w-3/12' onSubmit={handleSubmit}>
+        <h2 className='text-2xl text-primary-500 font-semibold mb-2'>Connexion</h2>
         <Input
           name='identifier'
+          isRequired
           label='Email'
           type='email'
           placeholder='mail@provider.com'
@@ -41,6 +48,7 @@ function Login () {
           onChange={handleChange}
         />
         <Input
+          isRequired
           name='password'
           type='password'
           label='Mot de Passe'
@@ -48,8 +56,8 @@ function Login () {
           value={formData.password}
           onChange={handleChange}
         />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <Button type='submit'>Se Connecter</Button>
+        {error && <p style={{ color: 'red' }}>{JSON.stringify(error)}</p>}
+        <Button className='bg-primary text-primary-50' type='submit'>Se Connecter</Button>
       </form>
     </>
   )

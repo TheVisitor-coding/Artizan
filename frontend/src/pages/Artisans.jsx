@@ -3,7 +3,7 @@ import { useFetch } from '../hooks/Api'
 
 function Artisans () {
   const { response, error, isLoading } = useFetch(
-    'http://localhost:1337/api/artisans?populate=*'
+    `${process.env.REACT_APP_API_URL}/artisans?populate=*`
   )
 
   if (isLoading) return <h2>Chargement...</h2>

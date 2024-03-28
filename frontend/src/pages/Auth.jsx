@@ -2,27 +2,28 @@ import { useEffect, useState } from 'react'
 import Login from '../components/forms/Login'
 import Register from '../components/forms/Register'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/authContext'
 
 function Auth () {
   const [isRegister, setIsRegister] = useState(false)
   const navigate = useNavigate()
 
+  const { state: { jwt, user } } = useAuth()
+
   useEffect(() => {
-    // Récupération du Token
-    const auth = window.localStorage.getItem('AUTH')
-    const authObject = JSON.parse(auth)
-    const token = authObject?.jwt
-    if (token) {
+    if (jwt && user) {
       navigate('/dashboard')
     }
   }, [])
 
   return (
     <>
-      {isRegister ? <Login /> : <Register />}
-      <a onClick={() => setIsRegister(!isRegister)}>
-        {isRegister ? "Je n'ai pas de compte" : "J'ai déjà un compte"}
-      </a>
+      <div className='w-full justify-center flex items-center flex-col mt-12 gap-4'>
+        {isRegister ? <Login /> : <Register />}
+        <a onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? "Je n'ai pas de compte" : "J'ai déjà un compte"}
+        </a>
+      </div>
     </>
   )
 }

@@ -1,60 +1,48 @@
-import { useState } from 'react'
-import Button from './buttons/Button'
-import Input from './input/Input'
-import './Register.css'
-import { validateRegisterForm } from '../../services/formAuthValidation'
+import { useEffect, useState } from 'react'
+import { Input, Button, Spinner } from '@nextui-org/react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/authContext'
 
 function Register () {
-  const [errors, setErrors] = useState({
-    firstName: null,
-    lastName: null,
-    username: null,
-    email: null,
-    password: null
-  })
   const [formData, setFormData] = useState({
-    firstName: 'Mattéo',
-    lastName: 'ROSSI',
-    username: 'JackieChan',
-    email: 'jackiechan@gmail.com',
+    username: 'hello-world',
+    email: 'helloworld@gmail.com',
     password: 'test'
   })
+
+  const navigate = useNavigate()
+  const { state: { user, jwt, error, loading }, register } = useAuth()
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
   }
 
+  useEffect(() => {
+    if (user && jwt) {
+      navigate('/dashboard')
+    }
+  }, [user, jwt])
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    const _errors = validateRegisterForm(formData)
-    if (Object.keys(_errors).length > 0) {
-      setErrors(_errors)
-    } else {
-      window.alert(`Formulaire Soumis : ${formData.firstName} ${formData.lastName}`)
-    }
+    register(formData)
   }
 
   return (
     <>
-      <form className='form-container' onSubmit={handleSubmit}>
-        <Input
-          name='lastName'
-          label='Nom'
-          placeholder='Entrez votre Nom ...'
-          value={formData.lastName}
-          onChange={handleChange}
-          error={errors.lastName}
-        />
-        <Input
-          name='firstName'
-          label='Prenom'
-          placeholder='Entrez votre Prénom ...'
-          value={formData.firstName}
-          onChange={handleChange}
-          error={errors.firstName}
-        />
+      {
+      loading && (
+        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center'>
+          <Spinner />
+        </div>
+      )
+    }
+      <form className='flex flex-col justify-center gap-3 w-6/12 xl:w-3/12' onSubmit={handleSubmit}>
+        <h2 className='text-2xl text-primary-500 font-semibold mb-2'>Inscription</h2>
+
         <Input
           name='username'
+          isRequired
           label="Nom d'utilisateur"
           placeholder="Entrez votre Nom d'utilisateur ..."
           value={formData.username}
@@ -63,18 +51,23 @@ function Register () {
         <Input
           name='email'
           label='E-mail'
+          isRequired
           placeholder='Entrez votre adresse mail ...'
           value={formData.email}
           onChange={handleChange}
+          type='email'
         />
         <Input
           name='password'
           label='Mot de Passe'
+          isRequired
           placeholder='Entrez votre Mot de Passe ...'
           value={formData.password}
           onChange={handleChange}
+          type='password'
         />
-        <Button type='submit'>S'enregistrer</Button>
+        {error && <p style={{ color: 'red' }}>{JSON.stringify(error)}</p>}
+        <Button className='bg-primary text-primary-50' type='submit'>S'enregistrer</Button>
       </form>
     </>
   )

@@ -10,6 +10,8 @@ import Artisan from '../pages/Artisan'
 import Auth from '../pages/Auth'
 import Dashboard from '../pages/Protected/Dashboard'
 import PrivateRoute from './PrivateRouteMiddleware'
+import Cart from '../pages/Cart'
+import Profil from '../pages/Protected/Profil'
 
 /* Router */
 function Router () {
@@ -27,6 +29,12 @@ function Router () {
         <Route path='authentication' element={<Auth />} />
         <Route path='dashboard' element={<PrivateRoute />}>
           <Route index element={<Dashboard />} />
+        </Route>
+        <Route path='cart' element={<PrivateRoute />}>
+          <Route index element={<Cart />} />
+        </Route>
+        <Route path='profil' element={<PrivateRoute />}>
+          <Route index element={<Profil />} />
         </Route>
       </Routes>
     </BrowserRouter>

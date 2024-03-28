@@ -1,7 +1,9 @@
+import HomeSection from '../components/home/HomeSection'
+
 function Home () {
   return (
     <>
-      <h1>Home</h1>
+      <HomeSection />
     </>
   )
 }

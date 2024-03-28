@@ -7,7 +7,7 @@ function Artisan () {
   const { artisanSlug } = useParams()
 
   const { response, error, isLoading } = useFetch(
-    `http://localhost:1337/api/artisans?filters[slug][$eq]=${artisanSlug}&populate=*`
+    `${process.env.REACT_APP_API_URL}/artisans?filters[slug][$eq]=${artisanSlug}&populate=*`
   )
 
   const {
@@ -15,7 +15,7 @@ function Artisan () {
     error: productsError,
     isLoading: productsLoading
   } = useFetch(
-    `http://localhost:1337/api/products?filters[artisan][slug][$eq]=${artisanSlug}&populate=*`
+    `${process.env.REACT_APP_API_URL}/products?filters[artisan][slug][$eq]=${artisanSlug}&populate=*`
   )
 
   if (isLoading || productsLoading) return <h2>Chargement...</h2>
@@ -25,8 +25,10 @@ function Artisan () {
   return (
     response && (
       <>
-        <ArtisanHeader artisan={response[0]?.attributes} />
-        {products ? (<ProductsList products={products} artisan={response[0]?.attributes} />) : (<p>Aucun Produit Trouvé</p>)}
+        <div className='flex flex-col ml-10 gap-10'>
+          <ArtisanHeader artisan={response[0]?.attributes} />
+          {products ? (<ProductsList products={products} artisan={response[0]?.attributes} />) : (<p>Aucun Produit Trouvé</p>)}
+        </div>
       </>
     )
   )

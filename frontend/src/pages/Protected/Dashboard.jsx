@@ -1,17 +1,9 @@
-import { useNavigate } from 'react-router-dom'
-import Button from '../../components/forms/buttons/Button'
-
 function Dashboard () {
-  const navigate = useNavigate()
-  const logout = () => {
-    window.localStorage.removeItem('AUTH')
-    navigate('/')
-  }
-
   return (
     <>
-      <h2>Dashboard</h2>
-      <Button onClick={logout}>Déconnexion</Button>
+      <div className='w-full flex items-center flex-col gap-4'>
+        <h2 className='text-2xl text-primary-500 font-semibold mb-2'>Dashboard</h2>
+      </div>
     </>
   )
 }
