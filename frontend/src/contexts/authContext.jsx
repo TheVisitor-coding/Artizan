@@ -10,7 +10,8 @@ const actionTypes = {
   LOGOUT: 'LOGOUT', // Déconnecté
   LOADING: 'LOADING', // Chargement
   ERROR: 'ERROR', // Erreur
-  RESET: 'RESET' // Réinitialisation de l'état
+  RESET: 'RESET', // Réinitialisation de l'état
+  SET_USER: 'SET_USER'
 }
 
 const initialState = {
@@ -50,6 +51,12 @@ const authReducer = (prevState, action) => {
     case actionTypes.RESET:
       return {
         initialState
+      }
+    case actionTypes.SET_USER:
+      return {
+        ...prevState, // Recopie l'état précédent
+        loading: true,
+        user: action.data.user // Modification des informations utilisateurs
       }
     default:
       throw new Error(`Unhandled action type : ${action.type}`)
@@ -98,6 +105,11 @@ const authFactory = (dispatch) => ({
         data: { error: 'Erreur lors de l\'inscription' }
       })
     }
+  },
+  setUser: (newUser) => {
+    dispatch({
+      type: actionTypes.SET_USER, data: { user: newUser }
+    })
   }
 })
 

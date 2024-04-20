@@ -5,9 +5,9 @@ import { useAuth } from '../../contexts/authContext'
 
 function Register () {
   const [formData, setFormData] = useState({
-    username: 'hello-world',
-    email: 'helloworld@gmail.com',
-    password: 'test'
+    username: 'oui',
+    email: 'oui@gmail.com',
+    password: 'ouioui'
   })
 
   const navigate = useNavigate()

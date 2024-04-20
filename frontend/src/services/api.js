@@ -19,6 +19,11 @@ const loginApi = async (credentials) => {
   return response?.data
 }
 
+/**
+ * Call API Register route
+ * @param {object} credentials {username, email, password}
+ * @return {object} {jwt, user}
+ */
 const registerApi = async (credentials) => {
   const response = await axiosInstance.post('auth/local/register', credentials)
   return response?.data
