@@ -69,6 +69,9 @@ function Header () {
                   <DropdownItem key='profile' href='/profil'>
                     <p className='font-semibold'>Profil</p>
                   </DropdownItem>
+                  <DropdownItem key='dashboard' variant='shadow' href='/dashboard'>
+                    <p>Dashboard</p>
+                  </DropdownItem>
                   <DropdownItem key='logout' color='danger' onPress={logout}>
                     Log Out
                   </DropdownItem>

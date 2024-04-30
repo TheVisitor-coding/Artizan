@@ -60,10 +60,10 @@ const useDeleteUser = () => {
   const [deleteIsLoading, setDeleteIsLoading] = useState(false)
   const [deleteResponse, setDeleteResponse] = useState(false)
 
-  const deleteUser = useCallback(async ({ idUser, jwt, identifier, password }) => {
+  const deleteUser = useCallback(async ({ _id, jwt, identifier, password }) => {
     try {
       setDeleteIsLoading(true)
-      const _response = await axios.delete(`${process.env.REACT_APP_API_URL}/users/${idUser}`, {
+      const _response = await axios.delete(`${process.env.REACT_APP_API_URL}/users/${_id}`, {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',

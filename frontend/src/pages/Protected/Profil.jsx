@@ -58,7 +58,7 @@ function Profil () {
             className='bg-primary text-white' onPress={onOpen}
           >Modifier vos informations
           </Button>
-          <DeleteButton deleteUser={deleteUser} id={user.id} token={jwt} deleteIsLoading={deleteIsLoading} />
+          <DeleteButton deleteFunction={deleteUser} id={user.id} token={jwt} deleteIsLoading={deleteIsLoading} isUser />
         </span>
       </section>
 

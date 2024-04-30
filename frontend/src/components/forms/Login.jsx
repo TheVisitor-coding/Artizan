@@ -5,8 +5,8 @@ import { useAuth } from '../../contexts/authContext'
 
 function Login () {
   const [formData, setFormData] = useState({
-    identifier: 'jackiechan@gmail.com',
-    password: 'kungfu'
+    identifier: '',
+    password: ''
   })
 
   const navigate = useNavigate()
